@@ -1,0 +1,980 @@
+USE [CaseManagementDB]
+GO
+/****** Object:  Table [dbo].[Case]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Case](
+	[CaseID] [uniqueidentifier] NOT NULL,
+	[ComplainantID] [uniqueidentifier] NULL,
+	[StationID] [uniqueidentifier] NULL,
+	[InvestigatorName] [varchar](100) NULL,
+	[CaseStatus] [varchar](50) NULL,
+	[CaseDelayedReason] [varchar](max) NULL,
+	[CaseNumber] [varchar](50) NULL,
+	[ReportingAvenue] [varchar](50) NULL,
+	[CaseCategory] [varchar](50) NULL,
+	[AllegationDescription] [varchar](max) NULL,
+	[RecommendationDescription] [varchar](max) NULL,
+	[CaseOutCome] [varchar](max) NULL,
+	[CaseUniqueNumber] [int] IDENTITY(1,1) NOT NULL,
+	[Amount] [money] NULL,
+	[DueDate] [datetime] NULL,
+	[CompletionDate] [datetime] NULL,
+	[LastUpdatedTimeStamp] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Case] PRIMARY KEY CLUSTERED 
+(
+	[CaseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Department]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Department](
+	[DepartmentID] [uniqueidentifier] NOT NULL,
+	[DepartmentName] [varchar](50) NULL,
+	[LastUpdatedTimeStamp] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED 
+(
+	[DepartmentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Document]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Document](
+	[DocumentID] [uniqueidentifier] NOT NULL,
+	[CaseReferenceID] [uniqueidentifier] NULL,
+	[DocumentName] [varchar](100) NULL,
+	[DocumentType] [varchar](20) NULL,
+	[DocumentContent] [varbinary](max) NULL,
+	[Deleted] [bit] NULL,
+	[LastUpdatedTimeStamp] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Document] PRIMARY KEY CLUSTERED 
+(
+	[DocumentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employee]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employee](
+	[EmployeeID] [uniqueidentifier] NOT NULL,
+	[FirstName] [varchar](50) NULL,
+	[LastName] [varchar](50) NULL,
+	[FullName] [varchar](100) NULL,
+	[EmailAddress] [varchar](50) NULL,
+	[EmployeeNumber] [varchar](50) NULL,
+	[DepartmentID] [uniqueidentifier] NOT NULL,
+	[LineManagerID] [uniqueidentifier] NOT NULL,
+	[PositionID] [uniqueidentifier] NOT NULL,
+	[UnitID] [uniqueidentifier] NOT NULL,
+	[AccessSystem] [bit] NULL,
+	[Password] [varchar](max) NULL,
+	[LastUpdatedTimeStamp] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Logs]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Logs](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Message] [nvarchar](max) NULL,
+	[MessageTemplate] [nvarchar](max) NULL,
+	[Level] [nvarchar](max) NULL,
+	[TimeStamp] [datetime] NULL,
+	[Exception] [nvarchar](max) NULL,
+	[Properties] [nvarchar](max) NULL,
+	[LogEvent] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Logs] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Position]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Position](
+	[PositionID] [uniqueidentifier] NOT NULL,
+	[PositionName] [varchar](50) NULL,
+	[LastUpdatedTimeStamp] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Position] PRIMARY KEY CLUSTERED 
+(
+	[PositionID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Station]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Station](
+	[StationID] [uniqueidentifier] NOT NULL,
+	[StationName] [varchar](50) NULL,
+	[LastUpdatedTimeStamp] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Station] PRIMARY KEY CLUSTERED 
+(
+	[StationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Unit]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Unit](
+	[UnitID] [uniqueidentifier] NOT NULL,
+	[UnitName] [varchar](50) NULL,
+	[LastUpdatedTimeStamp] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Unit] PRIMARY KEY CLUSTERED 
+(
+	[UnitID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Case] ADD  CONSTRAINT [DF_Case_CaseID]  DEFAULT (newsequentialid()) FOR [CaseID]
+GO
+ALTER TABLE [dbo].[Case] ADD  CONSTRAINT [DF_Case_Amount]  DEFAULT ((0)) FOR [Amount]
+GO
+ALTER TABLE [dbo].[Case] ADD  CONSTRAINT [DF_Case_LastUpdatedTimeStamp]  DEFAULT (getdate()) FOR [LastUpdatedTimeStamp]
+GO
+ALTER TABLE [dbo].[Case] ADD  CONSTRAINT [DF_Case_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_DepartmentID]  DEFAULT (newsequentialid()) FOR [DepartmentID]
+GO
+ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_LastUpdatedTimeStamp]  DEFAULT (getdate()) FOR [LastUpdatedTimeStamp]
+GO
+ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Document] ADD  CONSTRAINT [DF_Document_DocumentID]  DEFAULT (newsequentialid()) FOR [DocumentID]
+GO
+ALTER TABLE [dbo].[Document] ADD  DEFAULT ((0)) FOR [Deleted]
+GO
+ALTER TABLE [dbo].[Document] ADD  CONSTRAINT [DF_Document_LastUpdatedTimeStamp]  DEFAULT (getdate()) FOR [LastUpdatedTimeStamp]
+GO
+ALTER TABLE [dbo].[Document] ADD  CONSTRAINT [DF_Document_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Employee] ADD  CONSTRAINT [DF_Employee_EmployeeID]  DEFAULT (newsequentialid()) FOR [EmployeeID]
+GO
+ALTER TABLE [dbo].[Employee] ADD  CONSTRAINT [DF_Employee_AccessSystem]  DEFAULT ((0)) FOR [AccessSystem]
+GO
+ALTER TABLE [dbo].[Employee] ADD  CONSTRAINT [DF_Employee_LastUpdatedTimeStamp]  DEFAULT (getdate()) FOR [LastUpdatedTimeStamp]
+GO
+ALTER TABLE [dbo].[Employee] ADD  CONSTRAINT [DF_Employee_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Position] ADD  CONSTRAINT [DF_Position_PositionID]  DEFAULT (newsequentialid()) FOR [PositionID]
+GO
+ALTER TABLE [dbo].[Position] ADD  CONSTRAINT [DF_Position_LastUpdatedTimeStamp]  DEFAULT (getdate()) FOR [LastUpdatedTimeStamp]
+GO
+ALTER TABLE [dbo].[Position] ADD  CONSTRAINT [DF_Position_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Station] ADD  CONSTRAINT [DF_Station_StationID]  DEFAULT (newsequentialid()) FOR [StationID]
+GO
+ALTER TABLE [dbo].[Station] ADD  CONSTRAINT [DF_Station_LastUpdatedTimeStamp]  DEFAULT (getdate()) FOR [LastUpdatedTimeStamp]
+GO
+ALTER TABLE [dbo].[Station] ADD  CONSTRAINT [DF_Station_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[Unit] ADD  CONSTRAINT [DF_Unit_UnitID]  DEFAULT (newsequentialid()) FOR [UnitID]
+GO
+ALTER TABLE [dbo].[Unit] ADD  CONSTRAINT [DF_Unit_LastUpdatedTimeStamp]  DEFAULT (getdate()) FOR [LastUpdatedTimeStamp]
+GO
+ALTER TABLE [dbo].[Unit] ADD  CONSTRAINT [DF_Unit_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+/****** Object:  StoredProcedure [dbo].[CaseCategoryData]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CaseCategoryData]
+AS
+		
+BEGIN
+	SELECT 
+		CaseCategory,
+		COUNT(*) AS RecordCount
+	FROM [dbo].[Case]
+	GROUP BY CaseCategory
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CasesPerMonth]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CasesPerMonth]
+AS
+
+BEGIN
+WITH CasesPerMonth (Months,RecordCount)AS
+(
+	SELECT 
+		'AUGUST' Months
+		,CASE WHEN  COUNT(*) = '' THEN  0 ELSE COUNT(*) END RecordCount
+	FROM [dbo].[Case]
+	WHERE DATENAME(YEAR, CreatedDate) = DATENAME(YEAR,GETDATE())
+	AND UPPER(DATENAME(MONTH,CreatedDate)) = 'AUGUST'
+	GROUP BY  DATENAME(MONTH, CreatedDate) + ', ' +    DATENAME(YEAR, CreatedDate)
+	UNION ALL
+	SELECT 
+		'SEPTEMBER' Months
+		,CASE WHEN  COUNT(*) = '' THEN  0 ELSE COUNT(*) END RecordCount
+	FROM [dbo].[Case]
+	WHERE DATENAME(YEAR, CreatedDate) = DATENAME(YEAR,GETDATE())
+	AND UPPER(DATENAME(MONTH,CreatedDate)) = 'SEPTEMBER'
+	GROUP BY  DATENAME(MONTH, CreatedDate) + ', ' +    DATENAME(YEAR, CreatedDate)
+	UNION ALL
+	SELECT 
+		'OCTOBER' Months
+		,CASE WHEN  COUNT(*) = '' THEN  0 ELSE COUNT(*) END RecordCount
+	FROM [dbo].[Case]
+	WHERE DATENAME(YEAR, CreatedDate) = DATENAME(YEAR,GETDATE())
+	AND UPPER(DATENAME(MONTH,CreatedDate)) = 'OCTOBER'
+	GROUP BY  DATENAME(MONTH, CreatedDate) + ', ' +    DATENAME(YEAR, CreatedDate)
+)
+
+SELECT Months 'CaseCategory', RecordCount FROM CasesPerMonth
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[CaseStatusData]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CaseStatusData]
+AS
+BEGIN
+	SELECT 
+		CaseStatus CaseCategory
+		,COUNT(*) AS RecordCount
+	FROM [dbo].[Case]
+	GROUP BY CaseStatus
+	ORDER BY CaseStatus
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CaseStatusPerDueDate]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CaseStatusPerDueDate]
+AS
+BEGIN
+	SELECT 'Overdue' , COUNT(*) RecordCount FROM [dbo].[Case]
+	WHERE GETDATE() > DueDate
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CategoryDashboardData]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[CategoryDashboardData]
+AS
+BEGIN
+
+	WITH CTE_CaseCategory AS (
+
+   		SELECT COUNT(*) RecordCount , 'Absenteeism' CaseCategory FROM [dbo].[Case] WHERE CaseCategory = 'Absenteeism'
+		GROUP BY CaseCategory
+		UNION ALL
+		SELECT COUNT(*) RecordCount , 'Insubordination' CaseCategory FROM [dbo].[Case] WHERE CaseCategory = 'Insubordination'
+		GROUP BY CaseCategory
+		UNION ALL
+		SELECT COUNT(*) RecordCount , 'Verbal Abuse' CaseCategory FROM [dbo].[Case] WHERE CaseCategory = 'Verbal Abuse'
+		GROUP BY CaseCategory
+		UNION ALL
+		SELECT COUNT(*) RecordCount , 'Insolence' CaseCategory FROM [dbo].[Case] WHERE CaseCategory = 'Insolence'
+		GROUP BY CaseCategory
+		UNION ALL
+		SELECT COUNT(*) RecordCount , 'Intimidation' CaseCategory FROM [dbo].[Case] WHERE CaseCategory = 'Intimidation'
+		GROUP BY CaseCategory
+	)
+
+	SELECT RecordCount,CaseCategory FROM CTE_CaseCategory ORDER BY CaseCategory
+	
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[CheckEmailExists]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CheckEmailExists]
+(
+	@EmailAddress VARCHAR(50)
+)
+AS
+BEGIN
+	DECLARE @emailCount INT
+
+	SET @emailCount = (SELECT COUNT(*) FROM Employee WHERE EmailAddress = @EmailAddress)
+
+	IF @emailCount > 0
+	BEGIN
+		SELECT CAST(1 AS BIT) 
+	END
+	ElSE
+	BEGIN
+		SELECT CAST(0 AS BIT)
+	END
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CreateCase]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CreateCase]
+(
+	 @ComplainantID UNIQUEIDENTIFIER
+	,@StationID UNIQUEIDENTIFIER
+	,@InvestigatorName VARCHAR(100)
+	,@CaseStatus VARCHAR(50)
+	,@CaseNumber VARCHAR(50)
+	,@ReportingAvenue VARCHAR(50)
+	,@CaseCategory VARCHAR(50)
+	,@Allegation VARCHAR(MAX)
+	,@Recommendation VARCHAR(MAX)
+	,@OutCome VARCHAR(MAX)
+	,@DueDate DATETIME
+	,@CompleteDate DATETIME
+    ,@Amount MONEY
+)
+AS
+BEGIN
+ INSERT INTO [dbo].[Case](
+            [ComplainantID]
+           ,[StationID]
+           ,[InvestigatorName]
+           ,[CaseStatus]
+           ,[CaseNumber]
+           ,[ReportingAvenue]
+           ,[CaseCategory]
+           ,[AllegationDescription]
+           ,[RecommendationDescription]
+           ,[CaseOutCome]
+           ,[DueDate]
+           ,[CompletionDate]
+           ,[Amount]
+          )
+     VALUES
+           (
+           
+            @ComplainantID
+           ,@StationID
+           ,@InvestigatorName
+           ,@CaseStatus
+           ,@CaseNumber
+           ,@ReportingAvenue
+           ,@CaseCategory
+           ,@Allegation
+           ,@Recommendation
+           ,@OutCome
+           ,@DueDate
+           ,@CompleteDate       
+           ,@Amount
+
+           
+           )
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CreateDepartment]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CreateDepartment]
+(	
+	@DepartmentName VARCHAR(50)
+)
+AS
+BEGIN
+	INSERT INTO [dbo].[Department] (DepartmentName) VALUES(@DepartmentName)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CreateDocument]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PRoCEDURE [dbo].[CreateDocument]
+(
+	 @CaseReferenceID UNIQUEIDENTIFIER
+	,@DocumentName VARCHAR(100)
+	,@DocumentType VARCHAR(20)
+	,@DocumentContent VARBINARY(MAX)
+)
+AS
+BEGIN
+	INSERT INTO [dbo].[Document] 
+	(CaseReferenceID,DocumentContent,DocumentName,DocumentType)
+	VALUES(@CaseReferenceID,@DocumentContent,@DocumentName,@DocumentType)
+	
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CreateEmployee]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CreateEmployee]
+(
+	 @FirstName VARCHAR(50) 
+	,@LastName VARCHAR(50) 
+	,@FullName VARCHAR(100) 
+	,@EmailAddress VARCHAR(50) 
+	,@EmployeeNumber VARCHAR(50) 
+	,@DepartmentID UNIQUEIDENTIFIER
+	,@LineManagerID UNIQUEIDENTIFIER
+	,@UnitID UNIQUEIDENTIFIER
+	,@PositionID UNIQUEIDENTIFIER
+	,@Password VARCHAR(MAX)
+	,@AccessSystem BIT
+)
+AS
+BEGIN
+	INSERT INTO [dbo].[Employee]
+	(
+		 FirstName
+		,LastName
+		,FullName
+		,EmailAddress
+		,EmployeeNumber
+		,DepartmentID
+		,LineManagerID
+		,UnitID
+		,PositionID
+		,Password
+		,AccessSystem
+	)
+	VALUES
+	(
+	     @FirstName
+		,@LastName
+		,@FullName
+		,@EmailAddress
+		,@EmployeeNumber
+		,@DepartmentID
+		,@LineManagerID
+		,@UnitID
+		,@PositionID
+		,@Password
+		,@AccessSystem
+	)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CreateEmployeePosition]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CreateEmployeePosition]
+(	
+	@PositionName VARCHAR(50)
+)
+AS
+BEGIN
+	INSERT INTO [dbo].[Position] (PositionName) VALUES(@PositionName)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CreateStation]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CreateStation]
+(	
+	@StationName VARCHAR(50)
+)
+AS
+BEGIN
+	INSERT INTO [dbo].[Station] (StationName) VALUES(@StationName)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CreateUnit]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CreateUnit]
+(
+	@UnitName VARCHAR(50)
+)
+AS
+BEGIN
+	INSERT INTO [dbo].[Unit] (UnitName) VALUES(@UnitName)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteDocumentByID]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[DeleteDocumentByID]
+(
+	@DocumentID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	UPDATE Document
+	SET 
+		Deleted = 1
+	WHERE DocumentID = @DocumentID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetCaseByID]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetCaseByID]
+(
+	@CaseID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	SELECT 
+	     C.CaseID
+		,C.ComplainantID
+		,C.StationID
+		,C.InvestigatorName
+		,C.CaseStatus
+		,ISNULL(C.CaseDelayedReason,'')CaseDelayedReason
+		,C.CaseCategory
+		,C.ReportingAvenue
+		,C.CaseNumber SAPSCaseNumber
+		,C.AllegationDescription Allegation
+		,C.RecommendationDescription Recommendation
+		,C.CaseOutCome Outcome
+		,ROUND(C.Amount,2) Amount
+		,C.CaseUniqueNumber CaseNumber
+		,CAST(C.DueDate AS DATE) DueDate
+		,C.CompletionDate CompletedDate
+	FROM [dbo].[Case] C
+	LEFT JOIN Employee E ON E.EmployeeID = C.ComplainantID
+	LEFT JOIN Station S ON S.StationID = C.StationID
+	WHERE C.CaseID = @CaseID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetCaseDocuments]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetCaseDocuments]
+(
+	@CaseID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	SELECT 
+	     DocumentID
+		,DocumentName
+		,CaseReferenceID
+		,CreatedDate UploadedDate
+	FROM Document WHERE CaseReferenceID = @CaseID
+	AND Deleted = 0
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetCases]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetCases]
+AS
+BEGIN
+	SELECT
+	     C.CaseID
+		,E.FullName Complainant
+		,C.InvestigatorName
+		,C.CaseStatus
+		,C.CaseCategory
+		,C.AllegationDescription Allegation
+		,C.DueDate
+		--,C.CompletionDate
+	FROM [dbo].[Case] C
+	LEFT JOIN Employee E ON E.EmployeeID = C.ComplainantID
+	ORDER BY C.CreatedDate DESC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetComplainants]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetComplainants]
+AS
+BEGIN
+	SELECT  EmployeeID ComplainantID, FullName Complainant FROM Employee ORDER BY FirstName ASC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetDepartments]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetDepartments]
+AS
+BEGIN
+	SELECT  DepartmentID, DepartmentName FROM Department 	ORDER BY DepartmentName ASC
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetDocumentByID]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetDocumentByID]
+(
+	@DocumentID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	SELECT 
+		DocumentContent
+		,DocumentName
+	FROM Document WHERE DocumentID = @DocumentID
+	AND Deleted = 0
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeebyId]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetEmployeebyId]
+(
+	@EmployeeID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	SELECT
+		 E.FullName	
+		,E.FirstName
+		,E.LastName
+		,E.EmailAddress
+		,E.EmployeeNumber
+		,E.LineManagerID
+		,E.DepartmentID
+		,E.UnitID
+		,E.PositionID
+		,E.AccessSystem
+	FROm Employee E
+	WHERE E.EmployeeID = @EmployeeID
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeeData]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetEmployeeData]
+AS
+BEGIN
+	SELECT
+	     E.EmployeeID
+		,E.FullName	
+		,E.EmailAddress
+		,E.EmployeeNumber
+		,E.LineManagerID
+		,E.DepartmentID
+	FROm Employee E	
+	ORDER BY E.FullName
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeeFullName]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[GetEmployeeFullName]
+(
+	@EmployeeID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	SELECT FullName FROM Employee WHERE EmployeeID = @EmployeeID
+END 
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeeIndentifier]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetEmployeeIndentifier]
+(
+	@EmailAddress VARCHAR(50)
+)
+AS
+BEGIN
+	SELECT EmployeeID FROM Employee WHERE EmailAddress = @EmailAddress
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeeLineManagers]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[GetEmployeeLineManagers]
+AS
+BEGIN
+	SELECT  EmployeeID LineManagerID, FullName FROM Employee ORDER BY FirstName ASC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeePositions]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetEmployeePositions]
+AS
+BEGIN
+	SELECT  PositionID,PositionName FROM Position ORDER BY PositionName ASC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeeProfile]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetEmployeeProfile]
+(
+	@EmployeeID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	SELECT
+		 E.FullName	
+		,E.FirstName
+		,E.LastName
+		,E.EmailAddress
+		,E.EmployeeNumber
+		,E.LineManagerID
+		,E.DepartmentID
+		,E.UnitID
+		,E.PositionID
+	FROm Employee E
+	JOIN Employee LM ON LM.LineManagerID = E.LineManagerID
+	JOIN Department D ON D.DepartmentID = E.DepartmentID
+	JOIN Unit U ON U.UnitID = E.UnitID 
+	JOIN Position P ON P.PositionID = E.PositionID
+	WHERE E.EmployeeID = @EmployeeID
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployees]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetEmployees]
+AS
+BEGIN
+	SELECT  EmployeeID, FullName FROM Employee ORDER BY FirstName ASC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetStations]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetStations]
+AS
+BEGIN
+	SELECT  StationID,StationName FROM Station ORDER BY StationName ASC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetUnits]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[GetUnits]
+AS
+BEGIN
+	SELECT  UnitID, UnitName FROM Unit ORDER BY UnitName ASC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GrantSystemAccess]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GrantSystemAccess]
+(
+	 @EmployeeID UNIQUEIDENTIFIER
+	,@AccessSystem BIT
+)
+AS
+BEGIN
+	UPDATE [dbo].[Employee]
+	SET
+		AccessSystem = @AccessSystem
+	WHERE EmployeeID = @EmployeeID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateAccessSystem]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateAccessSystem]
+(
+	@EmployeeID UNIQUEIDENTIFIER
+	,@AccessSystem BIT
+)
+AS
+BEGIN
+	UPDATE [dbo].[Employee]
+	SET
+		AccessSystem = @AccessSystem
+	WHERE EmployeeID = @EmployeeID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateCase]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateCase]
+(
+     @CaseID UNIQUEIDENTIFIER
+	,@ComplainantID UNIQUEIDENTIFIER
+	,@StationID UNIQUEIDENTIFIER
+	,@InvestigatorName VARCHAR(100)
+	,@CaseStatus VARCHAR(50)
+	,@ReportingAvenue VARCHAR(50)
+	,@CaseCategory VARCHAR(50)
+	,@Allegation VARCHAR(MAX)
+	,@Recommendation VARCHAR(MAX)
+	,@CaseDelayedReason VARCHAR(MAX)
+	,@OutCome VARCHAR(MAX)
+	,@CompleteDate DATETIME
+    ,@Amount MONEY
+)
+AS
+BEGIN
+	
+	UPDATE [dbo].[Case]
+	SET
+		 ComplainantID = @ComplainantID
+		,StationID = @StationID
+		,InvestigatorName = @InvestigatorName
+		,CaseStatus = @CaseStatus
+		,ReportingAvenue = @ReportingAvenue
+		,CaseCategory = @CaseCategory
+		,AllegationDescription = @Allegation
+		,CaseDelayedReason = @CaseDelayedReason
+		,RecommendationDescription = @Recommendation
+		,CaseOutCome = @OutCome
+		,CompletionDate = @CompleteDate
+		,Amount = @Amount
+	WHERE CaseID = @CaseID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateEmployeeDetails]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[UpdateEmployeeDetails]
+(
+	 @EmployeeID UNIQUEIDENTIFIER
+	,@DepartmentID UNIQUEIDENTIFIER
+	,@UnitID UNIQUEIDENTIFIER
+	,@LineManagerID UNIQUEIDENTIFIER
+	,@PositionID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	UPDATE [dbo].[Employee]
+	SET
+		DepartmentID = @DepartmentID
+		,UnitID = @UnitID
+		,LineManagerID = @LineManagerID
+		,PositionID = @PositionID
+	WHERE EmployeeID = @EmployeeID
+END 
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateEmployeePassword]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateEmployeePassword]
+(
+	 @EmailAddress VARCHAR(50)
+	,@Password VARCHAR(MAX)
+	,@EmployeeID UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	UPDATE [dbo].[Employee]
+	SET
+		Password = @Password
+		,LastUpdatedTimeStamp = GETDATE()
+	WHERE EmailAddress = @EmailAddress
+	AND EmployeeID = @EmployeeID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[ValidateEmployeeCredentials]    Script Date: 4/11/2025 7:14:39 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ValidateEmployeeCredentials]
+(@EmailAddress VARCHAR(50))
+AS
+BEGIN
+	SELECT 
+		 EmployeeID
+		,FullName
+		,EmailAddress
+		,EmployeeNumber
+		,Password
+		,AccessSystem
+	FROM Employee  WHERE EmailAddress = @EmailAddress 
+END
+GO
